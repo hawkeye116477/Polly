@@ -34,6 +34,8 @@
     "default_popup": "browserAction.html"
   },
   "background": {
-    "scripts": ["bg.js"]
+    "scripts": [
+      "bg.js"
+    ]
   }
 }
