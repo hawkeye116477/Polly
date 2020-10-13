@@ -1,7 +1,12 @@
 {
-  "manifest_version": 2,
   "name": "Polly",
-  "version": "0.1",
+  "description": "Extension created to allow injection of polyfills into websites",
+  "manifest_version": 2,
+  "developer": {
+    "name": "zakius",
+    "url": ""
+  },
+  "version": "1.0",
   "content_scripts": [
     {
       "all_frames": true,
