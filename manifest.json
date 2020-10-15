@@ -6,7 +6,7 @@
     "name": "zakius",
     "url": ""
   },
-  "version": "1.0",
+  "version": "1.1",
   "content_scripts": [
     {
       "all_frames": true,
@@ -26,7 +26,10 @@
     "tabs"
   ],
   "web_accessible_resources": [
-    "polyfills/ResizeObserver.js"
+    "polyfills/ResizeObserver.js",
+    "polyfills/Webcomponents-Bundle.js",
+    "polyfills/Webcomponents-sd.js",
+    "polyfills/Webcomponents-ce.js"
   ],
   "browser_action": {
     "browser_style": true,

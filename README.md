@@ -2,6 +2,7 @@ This is extension created to allow users of Waterfox Classic (and possibly other
 
 Currently available polyfills:
 - [ResizeObserver](https://github.com/que-etc/resize-observer-polyfill)
+- [Webcomponents](https://github.com/webcomponents/polyfills})
 
 
 Licensing information regarding included polyfills is included both in repository and in package in `legal` directory
