@@ -38,6 +38,7 @@ function handleMessage(message, sender, sendResponse) {
 browser.runtime.onMessage.addListener(handleMessage);
 
 function listener(details) {
+
     const domain = getDomainFromAddress(details.url);
     browser.storage.local.get(domain).then((result) => {
         const enabledScripts = result[domain] ? result[domain] : [];
@@ -68,6 +69,6 @@ function listener(details) {
 
 browser.webRequest.onBeforeRequest.addListener(
     listener,
-    {urls: ["<all_urls>"], types: ["main_frame"]},
+    {urls: ["<all_urls>"], types: ["main_frame", "sub_frame"]},
     ["blocking"]
 );
