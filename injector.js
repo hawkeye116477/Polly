@@ -6,17 +6,17 @@ function handleResponse(message){
     enabledScripts.forEach((scriptName) => {
         const scriptElement = document.createElement('script');
         scriptElement.src = browser.runtime.getURL(scriptName);
-        scriptElement.onload = function () {
-            this.remove();
-        };
+        // scriptElement.onload = function () {
+        //     this.remove();
+        // };
 
         const parentElement = document.head || document.documentElement;
         parentElement.insertBefore(scriptElement, parentElement.firstChild);
     })
 }
-
-browser.runtime.sendMessage({action: 'get', domain: currentDomain}).then(handleResponse, (error) => {
-    console.error(error);
-})
+//
+// browser.runtime.sendMessage({action: 'get', domain: currentDomain}).then(handleResponse, (error) => {
+//     console.error(error);
+// })
 
 
