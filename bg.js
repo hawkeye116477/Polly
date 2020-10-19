@@ -190,15 +190,7 @@ function onHeadersReceivedListener(details) {
 
     obj[key] = encoding;
     browser.storage.local.set(obj).then(() => {
-        for (let i = 0; i < headers.length; i++) {
-            if (headers[i].name.toLowerCase() === 'content-type') {
-                headers.splice(i, 1);
-                return;
-            }
-        }
-        headers.push({name: 'content-type', value: 'text/html; Charset=utf-8'})
-
-        return {responseHeaders: headers};
+        return {};
     });
 }
 
