@@ -34,7 +34,7 @@ function handleMessage(message, sender, sendResponse) {
         getCurrentDomain().then((domain) => {
             const object = {};
             object[domain] = message.enabledScripts;
-            browser.storage.local.set(object).then((result) => {
+            browser.storage.local.set(object).then(() => {
             }, (error) => {
                 console.error(error);
             });
@@ -52,7 +52,7 @@ function handleMessage(message, sender, sendResponse) {
                 const uniqueRequestDomains = [...new Set(requestDomains)];
                 const object = {};
                 object['requestDomains'] = uniqueRequestDomains;
-                browser.storage.local.set(object).then((result) => {
+                browser.storage.local.set(object).then(() => {
                     registerRequestListeners();
                 }, (error) => {
                     console.error(error);
@@ -71,7 +71,7 @@ function handleMessage(message, sender, sendResponse) {
 
                 const object = {};
                 object['requestDomains'] = requestDomains;
-                browser.storage.local.set(object).then((result) => {
+                browser.storage.local.set(object).then(() => {
                     registerRequestListeners();
                 }, (error) => {
                     console.error(error);
@@ -112,7 +112,7 @@ function onBeforeRequestListener(details) {
                     return;
                 }
                 console.log('creating decoder with encoding: ' + encoding);
-                const decoder = new TextDecoder();
+                const decoder = new TextDecoder(encoding);
                 console.log('processing data chunk');
                 data.push(decoder.decode(event.data, {stream: true}));
             }, (error) => {
@@ -120,7 +120,7 @@ function onBeforeRequestListener(details) {
             });
         };
 
-        filter.onstop = event => {
+        filter.onstop = () => {
             browser.storage.local.get(key).then((result) => {
                 console.log(result);
                 const encoding = result[key];
@@ -130,8 +130,10 @@ function onBeforeRequestListener(details) {
                     return;
                 }
                 console.log('creating decoder with encoding: ' + encoding);
-                const decoder = new TextDecoder();
-                const encoder = new TextEncoder();
+                const decoder = new TextDecoder(encoding);
+                const encoder = encoding.toLowerCase() === 'utf-8'
+                    ? new TextEncoder()
+                    : new TextEncoder(encoding, {NONSTANDARD_allowLegacyEncoding: true});
                 console.log('processing final chunk');
                 data.push(decoder.decode());
 
