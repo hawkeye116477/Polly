@@ -16,7 +16,7 @@ browser.runtime.sendMessage({action: 'get'}).then((message) => {
     }
     element.appendChild(label);
     element.appendChild(input)
-    document.querySelector('body').appendChild(element);
+    document.querySelector('main').appendChild(element);
 
 
     enabledScripts = message.enabledScripts ? message.enabledScripts : [];
@@ -34,7 +34,7 @@ browser.runtime.sendMessage({action: 'get'}).then((message) => {
         }
         element.appendChild(label);
         element.appendChild(input)
-        document.querySelector('body').appendChild(element);
+        document.querySelector('main').appendChild(element);
     });
 })
 

@@ -6,15 +6,35 @@
     <title>Polyfiller</title>
     <style>
         html, body {
-            width: 500px;
-            margin: 5px;
+            width: 405px;
+            margin: 0px;
+	    padding: 0px;
             box-sizing: border-box;
+	    color: -moz-DialogText;
+	    background-color: -moz-Dialog;
+	    font-weight: bold;
         }
+	header {
+	    background-color: transparent;
+	    padding: 0px 5px;
+	    margin: 0px;
+	}
+	h1 {
+	    margin: 5px 5px;
+	    padding: 0px initial;
+	    font-weight: bold;
+	}
+	main {
+	    padding: 0px 5px 5px;
+	}
 
     </style>
 </head>
 <body>
-<script src="browserAction.js"></script>
+  <header><h1>Polly</h1></header>
+  <main>
+    <script src="browserAction.js"></script>
+  </main>
 
 </body>
 </html>
