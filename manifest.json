@@ -31,7 +31,20 @@
     "polyfills/ResizeObserver.js",
     "polyfills/Webcomponents-Bundle.js",
     "polyfills/Webcomponents-sd.js",
-    "polyfills/Webcomponents-ce.js"
+    "polyfills/Webcomponents-ce.js",
+    "polyfills/BigInt.js",
+    "polyfills/Polyfill.io/AbortController.js",
+    "polyfills/Polyfill.io/Array.js",
+    "polyfills/Polyfill.io/ArrayBuffer.js",
+    "polyfills/Polyfill.io/DataView.js",
+    "polyfills/Polyfill.io/Element.js",
+    "polyfills/Polyfill.io/es2018.js",
+    "polyfills/Polyfill.io/es2019.js",
+    "polyfills/Polyfill.io/globalThis.js",
+    "polyfills/Polyfill.io/Intl.js",
+    "polyfills/Polyfill.io/Promise.finally.js",
+    "polyfills/Polyfill.io/String.js",
+    "polyfills/Polyfill.io/TypedArrays.js"
   ],
   "browser_action": {
     "browser_style": true,
