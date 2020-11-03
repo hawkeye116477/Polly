@@ -138,13 +138,11 @@ function onBeforeRequestListener(details) {
                 data.push(decoder.decode());
 
                 let str = data.join("");
-                // console.log(str);
+               // console.log(str);
                 let domparser = new DOMParser();
                 let document = domparser.parseFromString(str, 'text/html');
 
                 enabledScripts.forEach((script) => {
-                    // const scriptUrl = browser.runtime.getURL(script);
-                    // str = str.replace('<head>', `<head><script src="${scriptUrl}"></script>`);
                     const scriptElement = document.createElement('script');
                     scriptElement.src = browser.runtime.getURL(script);
 
