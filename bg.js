@@ -101,7 +101,7 @@ function onBeforeRequestListener(details) {
                 const decoder = new TextDecoder(encoding);
                 data.push(decoder.decode(event.data, {stream: true}));
             }, (error) => {
-                console.log(error);
+                console.error(error);
             });
         };
 
@@ -133,11 +133,11 @@ function onBeforeRequestListener(details) {
                 filter.write(encoder.encode(x));
                 filter.disconnect();
             }, (error) => {
-                console.log(error);
+                console.error(error);
             });
         };
     }, (error) => {
-        console.log(error);
+        console.error(error);
     });
 }
 
