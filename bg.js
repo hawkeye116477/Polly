@@ -89,11 +89,11 @@ function onBeforeRequestListener(details) {
         let filter = browser.webRequest.filterResponseData(details.requestId);
 
         let data = [];
-        const key = 'request' + details.requestId;
+        const requestKey = 'request' + details.requestId;
 
         filter.ondata = event => {
-            browser.storage.local.get(key).then((result) => {
-                const encoding = result[key];
+            browser.storage.local.get(requestKey).then((result) => {
+                const encoding = result[requestKey];
                 if (!encoding) {
                     filter.disconnect();
                     return;
@@ -106,8 +106,8 @@ function onBeforeRequestListener(details) {
         };
 
         filter.onstop = () => {
-            browser.storage.local.get(key).then((result) => {
-                const encoding = result[key];
+            browser.storage.local.get(requestKey).then((result) => {
+                const encoding = result[requestKey];
                 if (!encoding) {
                     filter.disconnect();
                     return;
