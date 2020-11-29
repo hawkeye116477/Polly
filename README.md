@@ -1,9 +1,9 @@
-This is extension created to allow users of Waterfox Classic (and possibly other Firefox derivatives) to load polyfills at will.
+This is an extension created to allow users of Waterfox Classic (and possibly other Firefox derivatives) to load polyfills at will.
 
 Currently available polyfills:
 - [ResizeObserver](https://github.com/que-etc/resize-observer-polyfill)
 - [Webcomponents](https://github.com/webcomponents/polyfills)
-- BigInt (can't find the upstream now, I'm really sorry! if you are the author or maintainer please contact me) ( there is no way to actually polyfill BigInt as it's a new type that needs internal operators to work with it, if website creator used JSBI properly everything should be fine, in other cases it will likely break anyway)
+- [BigInt](https://github.com/peterolson/BigInteger.js) with slight modifications (there is no way to actually polyfill BigInt as it's a new type that needs internal operators to work with it, if website creator used JSBI properly everything should be fine, in other cases it will likely break anyway)
 - [AbortController](https://polyfill.io)
 - [Array extensions bundle](https://polyfill.io)
 - [ArrayBuffer](https://polyfill.io)
