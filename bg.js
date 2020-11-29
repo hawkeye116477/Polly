@@ -15,15 +15,10 @@ function getCurrentDomain() {
 function handleMessage(message, sender, sendResponse) {
     if (message.action === 'get') {
         getCurrentDomain().then((domain) => {
-                console.log('getting scripts for domain: ' + domain);
                 browser.storage.local.get([domain, 'requestDomains']).then((result) => {
                     const requestDomains = result['requestDomains'] ? result['requestDomains'] : [];
                     const isRequest = requestDomains.includes(domain);
                     const enabledScripts = result[domain] ? result[domain] : [];
-                    console.log('sending response to get scripts request', {
-                        enabledScripts: enabledScripts,
-                        isRequest: isRequest
-                    });
                     sendResponse({enabledScripts: enabledScripts, isRequest: isRequest});
                 });
             }
@@ -43,12 +38,9 @@ function handleMessage(message, sender, sendResponse) {
 
     if (message.action === 'addToRequest') {
         getCurrentDomain().then((domain) => {
-            console.log('adding ' + domain);
             browser.storage.local.get('requestDomains').then((result) => {
                 const requestDomains = result['requestDomains'] ? result['requestDomains'] : [];
-                console.log(requestDomains);
                 requestDomains.push(domain);
-                console.log(requestDomains);
                 const uniqueRequestDomains = [...new Set(requestDomains)];
                 const object = {};
                 object['requestDomains'] = uniqueRequestDomains;
@@ -88,11 +80,9 @@ function onBeforeRequestListener(details) {
     browser.storage.local.get(domain).then((result) => {
         let enabledScripts = result[domain];
         if (!Array.isArray(enabledScripts)) {
-            console.log('no scripts set up for domain ' + domain + ', skipping');
             return {};
         }
         if (enabledScripts.length === 0) {
-            console.log('no scripts set up for domain ' + domain + ', skipping');
             return {};
         }
 
@@ -102,18 +92,13 @@ function onBeforeRequestListener(details) {
         const key = 'request' + details.requestId;
 
         filter.ondata = event => {
-            console.log('data received');
             browser.storage.local.get(key).then((result) => {
-                console.log(result);
                 const encoding = result[key];
                 if (!encoding) {
-                    console.log('not a html document, skipping');
                     filter.disconnect();
                     return;
                 }
-                console.log('creating decoder with encoding: ' + encoding);
                 const decoder = new TextDecoder(encoding);
-                console.log('processing data chunk');
                 data.push(decoder.decode(event.data, {stream: true}));
             }, (error) => {
                 console.log(error);
@@ -122,23 +107,18 @@ function onBeforeRequestListener(details) {
 
         filter.onstop = () => {
             browser.storage.local.get(key).then((result) => {
-                console.log(result);
                 const encoding = result[key];
                 if (!encoding) {
-                    console.log('not a html document, skipping');
                     filter.disconnect();
                     return;
                 }
-                console.log('creating decoder with encoding: ' + encoding);
                 const decoder = new TextDecoder(encoding);
                 const encoder = encoding.toLowerCase() === 'utf-8'
                     ? new TextEncoder()
                     : new TextEncoder(encoding, {NONSTANDARD_allowLegacyEncoding: true});
-                console.log('processing final chunk');
                 data.push(decoder.decode());
 
                 let str = data.join("");
-               // console.log(str);
                 let domparser = new DOMParser();
                 let document = domparser.parseFromString(str, 'text/html');
 
@@ -162,10 +142,8 @@ function onBeforeRequestListener(details) {
 }
 
 function onHeadersReceivedListener(details) {
-    console.log('headers');
     let encoding = "utf-8";
     const key = 'request' + details.requestId;
-    console.log(key);
     const headers = details.responseHeaders;
     let contentType = '';
     let obj = {};
@@ -177,13 +155,11 @@ function onHeadersReceivedListener(details) {
     if (!contentType.includes('text/html')) {
         obj[key] = false;
         browser.storage.local.set(obj).then(() => {
-            console.log('not html');
         })
         return {};
     }
     if (contentType.includes('arset=')) {
         encoding = contentType.split('arset=')[1];
-        console.log('website is served with different encoding, changing to: ' + encoding);
     }
 
     obj[key] = encoding;
@@ -193,17 +169,13 @@ function onHeadersReceivedListener(details) {
 }
 
 function registerRequestListeners() {
-    console.log('brginning register process');
     if (browser.webRequest.onBeforeRequest.hasListener(onBeforeRequestListener)) {
-        console.log('unregistering first');
         browser.webRequest.onBeforeRequest.removeListener(onBeforeRequestListener);
     }
     if (browser.webRequest.onHeadersReceived.hasListener(onHeadersReceivedListener)) {
-        console.log('unregistering first');
         browser.webRequest.onHeadersReceived.removeListener(onHeadersReceivedListener);
     }
     browser.storage.local.get('requestDomains').then((result) => {
-        console.log(result);
         const requestDomains = result['requestDomains'] ? result['requestDomains'] : [];
         if (!requestDomains) {
             return;
@@ -214,7 +186,6 @@ function registerRequestListeners() {
         const filter = requestDomains.map((domain) => {
             return '*://' + domain + '/*';
         })
-        console.log((filter));
 
         browser.webRequest.onBeforeRequest.addListener(
             onBeforeRequestListener,
