@@ -115,7 +115,7 @@ function onBeforeRequestListener(details) {
                 const decoder = new TextDecoder(encoding);
                 const encoder = encoding.toLowerCase() === 'utf-8'
                     ? new TextEncoder()
-                    : new TextEncoder(encoding, {NONSTANDARD_allowLegacyEncoding: true});
+                    : new TextEncoder2(encoding, {NONSTANDARD_allowLegacyEncoding: true});
                 data.push(decoder.decode());
 
                 let str = data.join("");
