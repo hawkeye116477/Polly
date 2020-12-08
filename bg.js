@@ -94,11 +94,7 @@ function onBeforeRequestListener(details) {
         filter.ondata = event => {
             browser.storage.local.get(requestKey).then((result) => {
                 const encoding = result[requestKey];
-                if (!encoding) {
-                    filter.disconnect();
-                    return;
-                }
-                const decoder = new TextDecoder(encoding);
+                const decoder = new TextDecoder(encoding ? encoding : 'utf-8');
                 data.push(decoder.decode(event.data, {stream: true}));
             }, (error) => {
                 console.error(error);
@@ -107,31 +103,31 @@ function onBeforeRequestListener(details) {
 
         filter.onstop = () => {
             browser.storage.local.get(requestKey).then((result) => {
-                const encoding = result[requestKey];
-                if (!encoding) {
-                    filter.disconnect();
-                    return;
-                }
-                const decoder = new TextDecoder(encoding);
-                const encoder = encoding.toLowerCase() === 'utf-8'
+                const shouldProcess = !!result[requestKey];
+                const encoding = shouldProcess ? result[requestKey].toLowerCase() : 'utf-8';
+
+                const encoder = encoding === 'utf-8'
                     ? new TextEncoder()
                     : new TextEncoder2(encoding, {NONSTANDARD_allowLegacyEncoding: true});
+                const decoder = new TextDecoder(encoding);
                 data.push(decoder.decode());
+                let documentText = data.join("");
 
-                let str = data.join("");
-                let domparser = new DOMParser();
-                let document = domparser.parseFromString(str, 'text/html');
+                if (shouldProcess) {
+                    let domparser = new DOMParser();
+                    let document = domparser.parseFromString(documentText, 'text/html');
+                    enabledScripts.forEach((script) => {
+                        const scriptElement = document.createElement('script');
+                        scriptElement.src = browser.runtime.getURL(script);
 
-                enabledScripts.forEach((script) => {
-                    const scriptElement = document.createElement('script');
-                    scriptElement.src = browser.runtime.getURL(script);
-
-                    const parentElement = document.head || document.documentElement;
-                    parentElement.insertBefore(scriptElement, parentElement.firstChild);
-                });
-                let x = new XMLSerializer().serializeToString(document);
-                filter.write(encoder.encode(x));
+                        const parentElement = document.head || document.documentElement;
+                        parentElement.insertBefore(scriptElement, parentElement.firstChild);
+                    });
+                    documentText = new XMLSerializer().serializeToString(document);
+                }
+                filter.write(encoder.encode(documentText));
                 filter.disconnect();
+
             }, (error) => {
                 console.error(error);
             });
