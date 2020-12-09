@@ -6,7 +6,7 @@
     "name": "zakius",
     "url": ""
   },
-  "version": "1.8",
+  "version": "1.9",
   "content_scripts": [
     {
       "all_frames": true,
