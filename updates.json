@@ -1,0 +1,12 @@
+{
+    "addons": {
+        "zakius@polly": {
+            "updates": [
+                {
+                    "version": "1.9",
+                    "update_link": "https://github.com/zakius/Polly/releases/download/v1.9/polly-refs.tags.v1.9.xpi"
+                }
+            ]
+        }
+    }
+}
